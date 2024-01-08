@@ -1,0 +1,67 @@
+version: '3.9'
+
+services:
+  nginx:
+    container_name: nginx
+    build: ./requirements/nginx
+    depends_on:
+      - wordpress
+    ports:
+      - "443:443"
+    volumes:
+      - wordpress_data:/var/www/html/wordpress
+    restart: always
+    networks:
+      - network
+
+  mariadb:
+    container_name: mariadb
+    # build: ./requirements/mariadb
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - network
+    restart: always
+    env_file:
+      - .env
+    build:
+      context: ./requirements/mariadb
+      args:
+        MARIADB_DATABASE: ${MARIADB_DATABASE}
+        MARIADB_USER: ${MARIADB_USER}
+        MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+        MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+
+  wordpress:
+    build: ./requirements/wordpress
+    env_file:
+      - .env
+    container_name: wordpress
+    networks:
+      - network
+    depends_on:
+      - mariadb
+    volumes:
+      - wordpress_data:/var/www/html/wordpress
+    restart: always
+
+volumes:
+  wordpress_data:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/${USER}/data/wp
+  db_data:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/${USER}/data/db
+
+# networks:
+#   my-network:
+#     name: docker-network
+networks:
+  network:
+    driver: bridge
