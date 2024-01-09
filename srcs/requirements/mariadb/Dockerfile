@@ -48,9 +48,10 @@ ARG MARIADB_ROOT_PASSWORD
 # CMD ["mysqld", "--bind-address=0.0.0.0"]
 
 
-RUN apt-get update
+RUN apt-get update --no-install-recommends -y
 
-RUN apt-get install -y mariadb-server \
+RUN apt-get install --no-install-recommends -y \
+     mariadb-server \
     && rm -rf /var/lib/apt/lists/*
 
 COPY ./tools/create_user.sh /
@@ -63,7 +64,8 @@ RUN service mariadb start \
 COPY ./conf/mariadb.conf /etc/mysql/mariadb.conf.d/50-server.cnf
 EXPOSE 3306
 
-RUN apt-get update && apt-get install -y dumb-init
+RUN apt-get update --no-install-recommends -y
+RUN apt-get install -y dumb-init
 
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 

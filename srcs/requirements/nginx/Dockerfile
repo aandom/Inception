@@ -1,7 +1,8 @@
 FROM debian:bullseye
 
-RUN		apt-get update
-RUN		apt-get install -y nginx \
+RUN		apt-get update --no-install-recommends -y
+RUN		apt-get install --no-install-recommends -y \ 
+                nginx \
                 openssl
 
 COPY ./tools/script.sh /usr/local/bin/
@@ -12,7 +13,7 @@ COPY ./conf/nginx.conf /etc/nginx/sites-enabled/nginx.conf
 
 EXPOSE	443
 
-RUN apt-get install -y dumb-init
+RUN apt-get install --no-install-recommends -y dumb-init
 
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 
