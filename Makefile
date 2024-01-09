@@ -41,11 +41,11 @@ re: fclean build
 clean: down
 	@printf "Cleaning configuration ${name}...\n"
 	@docker system prune -a
-	@sudo rm -rf /home/aandom42/data
+	@sudo rm -rf /home/${USER}/data
 
 fclean:
 	@printf "Total clean of all configurations docker\n"
-	@sudo rm -rf /home/aandom42/data
+	@sudo rm -rf /home/${USER}/data
 	@docker stop $$(docker ps -qa)
 	@docker system prune --all --force --volumes
 	@docker network prune --force
