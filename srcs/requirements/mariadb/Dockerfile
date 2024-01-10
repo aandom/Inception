@@ -64,8 +64,12 @@ RUN service mariadb start \
 COPY ./conf/mariadb.conf /etc/mysql/mariadb.conf.d/50-server.cnf
 EXPOSE 3306
 
-RUN apt-get update --no-install-recommends -y
-RUN apt-get install -y dumb-init
+# RUN apt-get install -y dumb-init
+
+RUN apt-get update --no-install-recommends -y \
+    && apt-get install --no-install-recommends -y \
+       dumb-init \
+    && rm -rf /var/lib/apt/lists/*
 
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 
