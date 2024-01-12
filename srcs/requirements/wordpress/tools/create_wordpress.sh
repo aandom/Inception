@@ -7,7 +7,6 @@ else
 # Download wordpress files
 wp core download  --path="/var/www/html/wordpress" --allow-root
 
-
 # Generate and configure the wp-config.php file
 wp config create --path="/var/www/html/wordpress" --allow-root \
 				 --dbname=$MARIADB_DATABASE \
@@ -30,7 +29,20 @@ wp user create --path="/var/www/html/wordpress" \
 			   --allow-root $WP_USR $WP_EMAIL \
 			   --user_pass=$WP_PWD
 
+# install the Astra theme for WordPress and activate it
+wp theme install astra --activate --allow-root
+
+# install the Redis Cache plugin and activate it
+wp plugin install redis-cache --activate --allow-root
+
 # Activate the plugins
+wp plugin update --allow-root --all
+
+# Set Redis-related constants
+wp config set WP_CACHE true --raw --allow-root
+wp config set WP_REDIS_HOST 'redis' --type=constant --add --allow-root
+wp config set WP_REDIS_PORT 6379 --type=constant --add --allow-root
+
 wp plugin update --allow-root --all
 
 # launch php-fpm
