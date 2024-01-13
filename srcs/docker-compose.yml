@@ -80,6 +80,19 @@ services:
     volumes:
       - redis_data:/var/lib/redis
 
+  adminer:
+    container_name: adminer
+    build: ./requirements/bonus/adminer
+    networks:
+      - network
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    depends_on:
+      - mariadb
+    restart: always
+
 volumes:
   wordpress_data:
     driver: local
