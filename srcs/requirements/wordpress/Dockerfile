@@ -11,10 +11,11 @@ RUN apt-get install --no-install-recommends -y \
               php-mysqli \
               mariadb-client \
               php-redis \
-              telnet
+              telnet  \
+              ftp
 
 
-#to install wp_cli command and put it in the right directory /usr/local/bin
+#install wp_cli command and put it in the right directory /usr/local/bin
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
   && chmod +x wp-cli.phar \
   && mv wp-cli.phar /usr/local/bin/wp
@@ -23,8 +24,8 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
 
 RUN mkdir -p /var/www/html/wordpress
-RUN chown -R www-data:www-data /var/www/html
-# RUN docker-php-ext-enable redis
+RUN chown -R www-data:www-data /var/www/html/
+RUN chmod -R 0777 /var/www/html/wordpress
 
 EXPOSE 9000
 

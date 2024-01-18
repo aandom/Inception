@@ -52,7 +52,7 @@ services:
       - wordpress
       # - redis
     volumes:
-      - wordpress_data:/home/aftp/ftp/files
+      - wordpress_data:/home/aandom/ftp/files
     env_file:
       - .env
     ports:
@@ -92,6 +92,24 @@ services:
     depends_on:
       - mariadb
     restart: always
+
+  samba:
+    #container_name: samba-server
+    container_name: samba
+    build:
+      context: ./requirements/bonus/samba
+      args:
+        SMB_USER: ${SMB_USER}
+        SMB_PASSWORD: ${SMB_PASSWORD}
+    volumes:
+      - wordpress_data:/data
+    networks:
+      - network
+    ports:
+      - "139:139"
+      - "445:445"
+    env_file:
+      - .env
 
 volumes:
   wordpress_data:
