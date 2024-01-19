@@ -4,6 +4,7 @@ services:
   nginx:
     container_name: nginx
     build: ./requirements/nginx
+    image: nginx
     depends_on:
       - wordpress
     ports:
@@ -16,6 +17,7 @@ services:
 
   mariadb:
     container_name: mariadb
+    image: mariadb
     volumes:
       - db_data:/var/lib/mysql
     networks:
@@ -33,6 +35,7 @@ services:
 
   wordpress:
     build: ./requirements/wordpress
+    image: wordpress
     env_file:
       - .env
     container_name: wordpress
@@ -46,10 +49,10 @@ services:
 
   ftp:
     container_name: ftp
+    image: ftp
     build: ./requirements/bonus/ftp
     depends_on:
       - wordpress
-      # - redis
     volumes:
       - wordpress_data:/home/aandom/ftp/files
     env_file:
@@ -64,6 +67,7 @@ services:
 
   redis:
     container_name: redis
+    image: redis
     restart: always
     build: ./requirements/bonus/redis
     networks:
@@ -80,6 +84,7 @@ services:
   adminer:
     container_name: adminer
     build: ./requirements/bonus/adminer
+    image: adminer
     networks:
       - myIncNet
     ports:
@@ -92,6 +97,7 @@ services:
 
   samba:
     container_name: samba
+    image: samba
     build:
       context: ./requirements/bonus/samba
       args:

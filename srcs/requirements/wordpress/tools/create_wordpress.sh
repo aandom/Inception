@@ -56,8 +56,8 @@ wp config set WP_REDIS_PORT 6379 --type=constant --add --allow-root
 
 wp config set WP_REDIS_PLUGIN_PATH /var/www/html/wordpress/wp-content/plugins/redis-cache --type=constant --add --allow-root
 
-chown www-data:www-data /var/www/html/wordpress/wp-content/object-cache.php
-chmod 666 /var/www/html/wordpress/wp-content/object-cache.php
+# chown www-data:www-data /var/www/html/wordpress/wp-content/object-cache.php
+# chmod 666 /var/www/html/wordpress/wp-content/object-cache.php
 
 # wp plugin update --allow-root --all
 

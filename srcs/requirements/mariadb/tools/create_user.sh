@@ -12,5 +12,3 @@
                     GRANT ALL PRIVILEGES ON $MARIADB_DATABASE.* TO '$MARIADB_USER'@'%' IDENTIFIED BY '$MARIADB_PASSWORD'; \
                     GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '$MARIADB_ROOT_PASSWORD'; \
                     FLUSH PRIVILEGES;"
-
-#  mysql -u root -e  "FLUSH PRIVILEGES;"
