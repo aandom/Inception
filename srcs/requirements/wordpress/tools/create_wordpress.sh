@@ -42,10 +42,12 @@ wp config set WP_CONTENT_URL https://aandom.42.fr/wordpress/wp-content --type=co
 chmod -R 0777 /var/www/html/wordpress/wp-content/
 chown -R www-data:www-data /var/www/html/wordpress/wp-content
 
-
+chmod -R 0777 /var/www/html/wordpress/*
+chown -R www-data:www-data /var/www/html/wordpress/*
 
 # Activate the plugins
 wp plugin update --allow-root --all
+
 
 # Set Redis-related constants
 wp config set WP_CACHE true --raw --allow-root
@@ -53,13 +55,13 @@ wp config set WP_REDIS_HOST 'redis' --type=constant --add --allow-root
 wp config set WP_REDIS_PORT 6379 --type=constant --add --allow-root
 
 wp config set WP_REDIS_PLUGIN_PATH /var/www/html/wordpress/wp-content/plugins/redis-cache --type=constant --add --allow-root
-wp redis enable --allow-root
 
 chown www-data:www-data /var/www/html/wordpress/wp-content/object-cache.php
 chmod 666 /var/www/html/wordpress/wp-content/object-cache.php
 
 # wp plugin update --allow-root --all
 
+wp redis enable --allow-root
 wp core update --allow-root
 wp plugin update --all --allow-root  
 

@@ -12,15 +12,14 @@ services:
       - wordpress_data:/var/www/html/wordpress
     restart: always
     networks:
-      - network
+      - myIncNet
 
   mariadb:
     container_name: mariadb
-    # build: ./requirements/mariadb
     volumes:
       - db_data:/var/lib/mysql
     networks:
-      - network
+      - myIncNet
     restart: always
     env_file:
       - .env
@@ -38,7 +37,7 @@ services:
       - .env
     container_name: wordpress
     networks:
-      - network
+      - myIncNet
     depends_on:
       - mariadb
     volumes:
@@ -58,9 +57,9 @@ services:
     ports:
       - "21:21"
       - "20:20"
-      - "40000-40005:40000-40005"
+      - "4000-4005:4000-4005"
     networks:
-      - network
+      - myIncNet
     restart: always
 
   redis:
@@ -68,11 +67,9 @@ services:
     restart: always
     build: ./requirements/bonus/redis
     networks:
-      - network
+      - myIncNet
     ports:
       - "6379:6379"
-    # expose:
-    #   - '6379'
     env_file:
       - .env
     # depends_on:
@@ -84,7 +81,7 @@ services:
     container_name: adminer
     build: ./requirements/bonus/adminer
     networks:
-      - network
+      - myIncNet
     ports:
       - "8080:8080"
     env_file:
@@ -94,7 +91,6 @@ services:
     restart: always
 
   samba:
-    #container_name: samba-server
     container_name: samba
     build:
       context: ./requirements/bonus/samba
@@ -104,12 +100,13 @@ services:
     volumes:
       - wordpress_data:/data
     networks:
-      - network
+      - myIncNet
     ports:
       - "139:139"
       - "445:445"
     env_file:
       - .env
+    restart: always
 
 volumes:
   wordpress_data:
@@ -131,9 +128,6 @@ volumes:
       type: none
       device: /home/${USER}/data/rd
 
-# networks:
-#   my-network:
-#     name: docker-network
 networks:
-  network:
+  myIncNet:
     driver: bridge

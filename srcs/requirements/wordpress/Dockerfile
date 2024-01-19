@@ -11,8 +11,8 @@ RUN apt-get install --no-install-recommends -y \
               php-mysqli \
               mariadb-client \
               php-redis \
-              telnet  \
-              ftp
+              telnet 
+              # ftp
 
 
 #install wp_cli command and put it in the right directory /usr/local/bin
